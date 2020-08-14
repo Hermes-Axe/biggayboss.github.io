@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小姐姐在线陪聊</title>
+    <link rel="icon" href="./robot_icon.png">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <h2 style="display: inline;margin: 0 auto;">在线尬聊</h2>
+    <p>tips:输入“么么哒”有惊喜哦！</p>
+    <div id="live-speak">
+        <div id="live-speak-box">
+            <div class="robot-text clearFix">
+                <span class="icon">
+                    <img src="./robot_icon.png" alt="memeda">
+                </span>
+                <span class="text-content">晚上吃什么?</span>
+            </div>
+            <!-- <div class="my-text clearFix">
+                <span class="icon">
+                    <img src="./my_icon.jpeg" alt="lalala">
+                </span>
+                <span class="text-content">你说了算！</span>
+            </div> -->
+        </div>
+        <div id="input-box">
+            <input id="text" type="text" placeholder="打个招呼吧O(∩_∩)O">
+            <button id="send">撩我吧!</button>
+        </div>
+    </div>
+
+    <script>
+        console.log('O(∩_∩)O 感谢图灵机器人提供聊天机器人接口！O(∩_∩)O');
+        var messBoxDOM = document.getElementById('live-speak-box');
+        document.getElementById("send").onclick=function(){
+            var intMes = document.getElementById('text').value;
+            if(intMes !== null&&intMes !== ""){
+                //显示自己发送的聊天框
+                var divDOM = document.createElement('div');
+                var iconDOM = document.createElement('span');
+                var imgDOM = document.createElement('img');
+                var textDOM = document.createElement('span');
+                divDOM.className = "my-text clearFix";
+                iconDOM.className = "icon";
+                imgDOM.src = "./my_icon.jpeg";
+                textDOM.className = "text-content";
+                textDOM.innerHTML = intMes;
+                iconDOM.appendChild(imgDOM);
+                divDOM.appendChild(iconDOM);
+                divDOM.appendChild(textDOM);
+                messBoxDOM.appendChild(divDOM);
+                document.getElementById('text').value = "";
+                //滚动到底部
+                messBoxDOM.scrollTop = messBoxDOM.scrollHeight;
+                console.log('没用jq添加元素好麻烦啊！~~/(ㄒoㄒ)/~~');
+                
+
+                //获取服务器返回的聊天回复
+                var xhr = new XMLHttpRequest();
+                xhr.open('get','./ajax.php?input='+intMes);
+                // xhr.setRequestHeader('Content-type','application/json;charset=utf-8');
+                xhr.send(null);
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState == 4&&xhr.status == 200){
+                        var data = JSON.parse(xhr.responseText);
+                        console.log(data);
+                        if(data.results.length == 1){
+                            var dataAnswer = data.results[0].values.text;
+                        }
+                        else{
+                            if(data.results[0].resultType == 'url'){
+                                var dataUrl = data.results[0].values.url;
+                            }
+                            var dataAnswer = data.results[1].values.text;
+                        }
+                        //dataAnswer是接口返回来的聊天回复数据resultType
+                        var divDOM = document.createElement('div');
+                        divDOM.className = "robot-text clearFix";
+                        if(data.intent.code == 4003){
+                            divDOM.innerHTML = `<span class="icon">
+                                                    <img src="./robot_icon.png" alt="memeda">
+                                                </span>
+                                                <span class="text-content">今天我累了，明天再聊吧！</span>`;
+                        }
+                        else{
+                            if(typeof dataUrl == 'undefined'){
+                                divDOM.innerHTML = `<span class="icon">
+                                                    <img src="./robot_icon.png" alt="memeda">
+                                                </span>
+                                                <span class="text-content">${dataAnswer}</span>`;
+                            }
+                            else{
+                                divDOM.innerHTML = `<span class="icon">
+                                                    <img src="./robot_icon.png" alt="memeda">
+                                                </span>
+                                                <span class="text-content">${dataAnswer}<a href="${dataUrl}" target="_blank">${dataUrl}</a></span>`;
+                            } 
+                        }
+                        messBoxDOM.appendChild(divDOM);
+                    }
+                    messBoxDOM.scrollTop = messBoxDOM.scrollHeight;
+                }
+            }
+            else{
+                console.log('说点儿什么吧?');
+            }
+        }
+    </script>
+</body>
+</html>
