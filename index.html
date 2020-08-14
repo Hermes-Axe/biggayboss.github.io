@@ -64,44 +64,45 @@
                 xhr.send(null);
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState == 4&&xhr.status == 200){
-                        var data = JSON.parse(xhr.responseText);
-                        console.log(data);
-                        if(data.results.length == 1){
-                            var dataAnswer = data.results[0].values.text;
-                        }
-                        else{
-                            if(data.results[0].resultType == 'url'){
-                                var dataUrl = data.results[0].values.url;
-                            }
-                            var dataAnswer = data.results[1].values.text;
-                        }
-                        //dataAnswer是接口返回来的聊天回复数据resultType
-                        var divDOM = document.createElement('div');
-                        divDOM.className = "robot-text clearFix";
-                        if(data.intent.code == 4003){
-                            divDOM.innerHTML = `<span class="icon">
-                                                    <img src="./robot_icon.png" alt="memeda">
-                                                </span>
-                                                <span class="text-content">今天我累了，明天再聊吧！</span>`;
-                        }
-                        else{
-                            if(typeof dataUrl == 'undefined'){
-                                divDOM.innerHTML = `<span class="icon">
-                                                    <img src="./robot_icon.png" alt="memeda">
-                                                </span>
-                                                <span class="text-content">${dataAnswer}</span>`;
-                            }
-                            else{
-                                divDOM.innerHTML = `<span class="icon">
-                                                    <img src="./robot_icon.png" alt="memeda">
-                                                </span>
-                                                <span class="text-content">${dataAnswer}<a href="${dataUrl}" target="_blank">${dataUrl}</a></span>`;
-                            } 
-                        }
-                        messBoxDOM.appendChild(divDOM);
-                    }
-                    messBoxDOM.scrollTop = messBoxDOM.scrollHeight;
-                }
+                            console.log(xhr.responseText);
+//                         var data = JSON.parse(xhr.responseText);
+//                         console.log(data);
+//                         if(data.results.length == 1){
+//                             var dataAnswer = data.results[0].values.text;
+//                         }
+//                         else{
+//                             if(data.results[0].resultType == 'url'){
+//                                 var dataUrl = data.results[0].values.url;
+//                             }
+//                             var dataAnswer = data.results[1].values.text;
+//                         }
+//                         //dataAnswer是接口返回来的聊天回复数据resultType
+//                         var divDOM = document.createElement('div');
+//                         divDOM.className = "robot-text clearFix";
+//                         if(data.intent.code == 4003){
+//                             divDOM.innerHTML = `<span class="icon">
+//                                                     <img src="./robot_icon.png" alt="memeda">
+//                                                 </span>
+//                                                 <span class="text-content">今天我累了，明天再聊吧！</span>`;
+//                         }
+//                         else{
+//                             if(typeof dataUrl == 'undefined'){
+//                                 divDOM.innerHTML = `<span class="icon">
+//                                                     <img src="./robot_icon.png" alt="memeda">
+//                                                 </span>
+//                                                 <span class="text-content">${dataAnswer}</span>`;
+//                             }
+//                             else{
+//                                 divDOM.innerHTML = `<span class="icon">
+//                                                     <img src="./robot_icon.png" alt="memeda">
+//                                                 </span>
+//                                                 <span class="text-content">${dataAnswer}<a href="${dataUrl}" target="_blank">${dataUrl}</a></span>`;
+//                             } 
+//                         }
+//                         messBoxDOM.appendChild(divDOM);
+//                     }
+//                     messBoxDOM.scrollTop = messBoxDOM.scrollHeight;
+//                 }
             }
             else{
                 console.log('说点儿什么吧?');
