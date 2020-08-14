@@ -64,7 +64,7 @@
                 xhr.send(null);
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState == 4&&xhr.status == 200){
-                            console.log(JSON.parse(xhr.responseText));
+                            console.log(xhr.responseText);
 //                         var data = JSON.parse(xhr.responseText);
 //                         console.log(data);
 //                         if(data.results.length == 1){
